@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Moja teretana">
+<link rel="manifest" href="manifest.json">
+<title>Moja teretana</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#151f30;--panel2:#1c293d;--text:#f4f7fb;--muted:#a7b4c7;--line:#2b3a50;--accent:#65d6a3;--danger:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 14px calc(22px + env(safe-area-inset-bottom));}
+main{max-width:680px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 2px 12px}.eyebrow{font-size:11px;letter-spacing:1.3px;color:var(--muted)}h1{font-size:25px;margin:4px 0 0}.badge{background:#203c36;color:var(--accent);padding:7px 10px;border-radius:20px;font-size:12px}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;border-bottom:1px solid var(--line);margin-bottom:16px}nav button{background:none;color:var(--muted);border:0;border-bottom:2px solid transparent;border-radius:0;padding:12px 2px;font-size:13px}nav button.active{color:var(--accent);border-color:var(--accent)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;margin:11px 0}.row{display:flex;gap:9px;align-items:center}.between{display:flex;justify-content:space-between;align-items:center;gap:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.stat{background:var(--panel2);border-radius:12px;padding:11px;min-width:0}.stat strong{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}
+label{display:block;font-size:13px;color:var(--muted);margin:8px 0 5px}input,select,textarea{width:100%;min-width:0;background:#0e1828;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:16px}button{font:inherit;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.btn{border:0;border-radius:10px;padding:12px 14px;font-weight:650}.primary{background:var(--accent);color:#092018}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#48262c;color:#ffd5d5;border:1px solid #75404a}.full{width:100%}.small{font-size:12px;padding:8px 10px}.muted{color:var(--muted)}.tiny{font-size:12px}.setrow{display:grid;grid-template-columns:30px 1fr 1fr 36px;gap:7px;align-items:center;margin:7px 0}.setrow input{text-align:center;padding:10px 4px}.exercise{margin-top:10px}.exercise-title{font-weight:700}.hint{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}.hidden{display:none!important}.empty{text-align:center;padding:25px 12px;color:var(--muted);font-size:14px}.history-item{border-bottom:1px solid var(--line);padding:12px 0}.history-item:last-child{border:0}.pill{font-size:11px;background:#203c36;color:var(--accent);padding:4px 7px;border-radius:7px}.bar{height:7px;background:#263449;border-radius:9px;overflow:hidden;margin:7px 0}.bar>i{display:block;height:100%;background:var(--accent);border-radius:9px}.notice{background:#172c29;border:1px solid #285343;padding:11px;border-radius:11px;font-size:12px;color:#bdebd5;line-height:1.5}.footer{font-size:11px;color:var(--muted);text-align:center;margin:18px 0}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><div class="eyebrow">LIČNI DNEVNIK TRENINGA</div><h1>💪 Moja teretana</h1></div><span class="badge">iPhone</span></header>
+<div class="stats"><div class="stat"><strong id="count">0</strong><span>Treninga</span></div><div class="stat"><strong id="volume">0</strong><span>Ukupno kg obima</span></div><div class="stat"><strong id="excount">0</strong><span>Različitih vežbi</span></div></div>
+<nav><button class="active" data-page="work">Trening</button><button data-page="history">Istorija</button><button data-page="progress">Napredak</button><button data-page="data">Podaci</button></nav>
+<section id="page-work">
+ <div class="panel">
+  <div class="grid2"><div><label>Vrsta treninga</label><select id="type"><option>Grudi – triceps</option><option>Leđa – biceps</option><option>Noge</option><option>Ramena</option></select></div><div><label>Datum</label><input id="date" type="date"></div></div>
+  <label>Napomena (opciono)</label><input id="note" placeholder="Kako je prošao trening?">
+ </div>
+ <div class="between"><b>Vežbe i radne serije</b><span class="tiny muted">kg × ponavljanja</span></div>
+ <div id="exercise-list"></div>
+ <div class="panel">
+  <b>＋ Dodaj vežbu</b>
+  <label>Naziv vežbe</label><input id="exercise-name" placeholder="Npr. Bench press">
+  <button class="btn secondary full" id="add-exercise" style="margin-top:9px">Dodaj vežbu</button>
+ </div>
+ <button class="btn primary full" id="save-workout">Sačuvaj trening</button>
+ <p id="work-message" class="hint" aria-live="polite">Rezultati prethodnog treninga prikazuju se kada dodaš vežbu.</p>
+</section>
+<section id="page-history" class="hidden"><h2>Istorija treninga</h2><div id="history-list"></div></section>
+<section id="page-progress" class="hidden"><h2>Napredak po vežbi</h2><label>Izaberi vežbu</label><select id="progress-exercise"><option value="">Izaberi...</option></select><div id="progress-result"></div></section>
+<section id="page-data" class="hidden">
+ <div class="panel"><b>Podaci i rezervna kopija</b><p class="hint">Treninzi se automatski čuvaju u memoriji ovog iPhone-a u okviru aplikacije. Izvezi kopiju povremeno, za slučaj brisanja podataka pregledača ili promene telefona.</p><button class="btn primary full" id="export">Preuzmi rezervnu kopiju</button><label>Vrati rezervnu kopiju</label><input id="import-file" type="file" accept="application/json,.json"><p id="data-message" class="hint" aria-live="polite"></p></div>
+ <div class="notice">Za najbolji rezultat otvori aplikaciju u Safariju i izaberi „Add to Home Screen” / „Dodaj na početni ekran”. Ako je hostovana na HTTPS adresi, može da se instalira kao web aplikacija.</div>
+</section>
+<div class="footer">Tvoji rezultati ostaju privatni na ovom uređaju.</div>
+</main>
+<script>
+(()=> {
+const $=id=>document.getElementById(id);
+let workouts=[],draft=[],db;
+const DB_NAME='MojaTeretanaDB', STORE='workouts';
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE,{keyPath:'id',autoIncrement:true})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function allRecords(){return new Promise((resolve,reject)=>{const req=db.transaction(STORE,'readonly').objectStore(STORE).getAll();req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id));req.onerror=()=>reject(req.error)})}
+function addRecord(w){return new Promise((resolve,reject)=>{const req=db.transaction(STORE,'readwrite').objectStore(STORE).add(w);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function deleteRecord(id){return new Promise((resolve,reject)=>{const req=db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);req.onsuccess=resolve;req.onerror=()=>reject(req.error)})}
+function replaceAll(list){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite'),s=tx.objectStore(STORE);s.clear();list.forEach(w=>{const x={...w};delete x.id;s.add(x)});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>{let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function prev(name){for(const w of workouts){const e=w.exercises.find(x=>x.name.toLowerCase()===name.toLowerCase());if(e)return e}return null}
+function volume(e){return e.sets.reduce((a,s)=>a+s.kg*s.reps,0)}
+function renderDraft(){
+ const box=$('exercise-list');
+ if(!draft.length){box.innerHTML='<div class="panel empty">Još nema dodatih vežbi.</div>';return}
+ box.innerHTML=draft.map((e,i)=>{const p=prev(e.name);return `<div class="panel exercise"><div class="between"><b class="exercise-title">${esc(e.name)}</b><button class="btn danger small" data-remove="${i}">Ukloni</button></div>${p?`<div class="hint">Prethodni put: ${p.sets.map(s=>s.kg+' kg × '+s.reps).join(' · ')}</div>`:'<div class="hint">Prvi put beležiš ovu vežbu.</div>'}<div class="setrow tiny muted"><span>Serija</span><span style="text-align:center">Kg</span><span style="text-align:center">Ponav.</span><span></span></div>${e.sets.map((s,j)=>`<div class="setrow"><span class="muted">${j+1}.</span><input type="number" min="0" max="1000" step="0.5" value="${s.kg}" data-i="${i}" data-j="${j}" data-field="kg" aria-label="Kilogrami"><input type="number" min="0" max="500" value="${s.reps}" data-i="${i}" data-j="${j}" data-field="reps" aria-label="Ponavljanja"><button class="btn secondary small" data-del="${i}" data-j="${j}">×</button></div>`).join('')}<div class="between"><button class="btn secondary small" data-addset="${i}">＋ Dodaj seriju</button><span class="tiny muted">${volume(e).toLocaleString('sr-RS')} kg obima</span></div>${p?`<div class="hint">Predlog: ako si sve serije uradio pravilno i na gornjoj granici ponavljanja, probaj sledeći put malo veću kilažu.</div>`:''}</div>`}).join('');
+}
+$('add-exercise').onclick=()=>{const n=$('exercise-name').value.trim();if(!n){$('work-message').textContent='Unesi naziv vežbe.';return}if(draft.some(e=>e.name.toLowerCase()===n.toLowerCase())){$('work-message').textContent='Već si dodao ovu vežbu.';return}const p=prev(n);draft.push({name:n,sets:p?p.sets.map(s=>({...s,reps:0})): [{kg:0,reps:0},{kg:0,reps:0},{kg:0,reps:0}]});$('exercise-name').value='';$('work-message').textContent='';renderDraft()};
+$('exercise-name').addEventListener('keydown',e=>{if(e.key==='Enter')$('add-exercise').click()});
+$('exercise-list').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=Number(b.dataset.remove??b.dataset.addset??b.dataset.del),j=Number(b.dataset.j);if(b.dataset.remove!==undefined)draft.splice(i,1);if(b.dataset.addset!==undefined)draft[i].sets.push({kg:draft[i].sets.at(-1)?.kg||0,reps:0});if(b.dataset.del!==undefined){draft[i].sets.splice(j,1);if(!draft[i].sets.length)draft[i].sets.push({kg:0,reps:0})}renderDraft()});
+$('exercise-list').addEventListener('change',e=>{const t=e.target;if(!t.dataset.field)return;const i=+t.dataset.i,j=+t.dataset.j;let v=Number(t.value);if(!Number.isFinite(v)||v<0)v=0;v=Math.min(v,t.dataset.field==='kg'?1000:500);draft[i].sets[j][t.dataset.field]=v;renderDraft()});
+$('save-workout').onclick=async()=>{if(!draft.length){$('work-message').textContent='Dodaj bar jednu vežbu.';return}if(draft.some(e=>!e.sets.some(s=>s.reps>0))){$('work-message').textContent='Unesi ponavljanja za svaku vežbu.';return}try{await addRecord({date:$('date').value||today(),type:$('type').value,note:$('note').value,exercises:JSON.parse(JSON.stringify(draft))});draft=[];$('note').value='';$('date').value=today();$('work-message').textContent='Trening je sačuvan na ovom iPhone-u.';renderDraft();await refresh()}catch(e){$('work-message').textContent='Nije uspelo čuvanje. Pokušaj ponovo.'}};
+async function refresh(){workouts=await allRecords();$('count').textContent=workouts.length;$('volume').textContent=Math.round(workouts.reduce((a,w)=>a+w.exercises.reduce((b,e)=>b+volume(e),0),0)).toLocaleString('sr-RS');$('excount').textContent=new Set(workouts.flatMap(w=>w.exercises.map(e=>e.name))).size;renderHistory();renderProgress()}
+function renderHistory(){$('history-list').innerHTML=workouts.length?workouts.map(w=>`<div class="panel"><div class="between"><b>${esc(w.type)}</b><span class="tiny muted">${esc(w.date)}</span></div>${w.exercises.map(e=>`<div class="history-item"><b>${esc(e.name)}</b><div class="tiny muted">${e.sets.map(s=>s.kg+' kg × '+s.reps).join(' · ')}</div><div class="tiny muted">${e.sets.length} serija · ${volume(e).toLocaleString('sr-RS')} kg obima</div></div>`).join('')}${w.note?`<p class="hint">${esc(w.note)}</p>`:''}<div class="between"><span class="tiny muted">Ukupno: ${Math.round(w.exercises.reduce((a,e)=>a+volume(e),0))} kg obima</span><button class="btn danger small" data-delete="${w.id}">Obriši trening</button></div></div>`).join(''):'<div class="empty">Još nema sačuvanih treninga.</div>'}
+$('history-list').addEventListener('click',async e=>{const b=e.target.closest('[data-delete]');if(b&&confirm('Da li želiš da obrišeš ovaj trening?')){await deleteRecord(Number(b.dataset.delete));await refresh()}});
+function renderProgress(){const old=$('progress-exercise').value;const names=[...new Set(workouts.flatMap(w=>w.exercises.map(e=>e.name)))];$('progress-exercise').innerHTML='<option value="">Izaberi...</option>'+names.map(n=>`<option>${esc(n)}</option>`).join('');if(names.includes(old))$('progress-exercise').value=old;showProgress()}
+function showProgress(){const n=$('progress-exercise').value;const rows=workouts.filter(w=>w.exercises.some(e=>e.name===n));if(!n||!rows.length){$('progress-result').innerHTML='<div class="empty">Izaberi vežbu da vidiš istoriju i napredak.</div>';return}const max=e=>Math.max(0,...e.sets.map(s=>s.kg));const first=rows.at(-1).exercises.find(e=>e.name===n),last=rows[0].exercises.find(e=>e.name===n);const hi=Math.max(1,...rows.map(w=>max(w.exercises.find(e=>e.name===n))));$('progress-result').innerHTML=`<div class="stats"><div class="stat"><strong>${max(last)} kg</strong><span>Najveća kilaža</span></div><div class="stat"><strong>${last.sets.length}</strong><span>Serija poslednji put</span></div><div class="stat"><strong>${Math.round(volume(last))}</strong><span>Obim poslednji put</span></div></div><div class="panel"><b>${esc(n)} – istorija</b>${rows.map(w=>{const e=w.exercises.find(e=>e.name===n),m=max(e);return `<div class="history-item"><div class="between"><b>${esc(w.date)}</b><span class="pill">${m} kg max</span></div><div class="bar"><i style="width:${Math.max(2,m/hi*100)}%"></i></div><div class="tiny muted">${e.sets.map(s=>s.kg+' kg × '+s.reps).join(' · ')}</div><div class="tiny muted">${e.sets.length} serija · ${Math.round(volume(e))} kg obima</div></div>`}).join('')}</div><div class="panel hint">${rows.length>1?'Promena obima od prvog do poslednjeg zabeleženog treninga: '+(volume(last)-volume(first)>0?'+':'')+Math.round(volume(last)-volume(first))+' kg.':'Sačuvaj još treninga ove vežbe za poređenje.'}</div>`}
+$('progress-exercise').onchange=showProgress;
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));['work','history','progress','data'].forEach(p=>$('page-'+p).classList.toggle('hidden',p!==b.dataset.page))});
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify({app:'Moja teretana',version:1,workouts},null,2)],{type:'application/json'});const a=document.createElement('a');const u=URL.createObjectURL(blob);a.href=u;a.download='moja-teretana-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);$('data-message').textContent='Rezervna kopija je preuzeta.'};
+$('import-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text());if(obj.version!==1||!Array.isArray(obj.workouts)||!obj.workouts.every(w=>typeof w.date==='string'&&Array.isArray(w.exercises)&&w.exercises.every(x=>typeof x.name==='string'&&Array.isArray(x.sets)&&x.sets.every(s=>Number.isFinite(s.kg)&&s.kg>=0&&Number.isFinite(s.reps)&&s.reps>=0))))throw Error();if(confirm('Uvoz će zameniti postojeću evidenciju. Nastaviti?')){await replaceAll(obj.workouts);$('data-message').textContent='Podaci su uspešno vraćeni.';await refresh()}}catch{$('data-message').textContent='Fajl nije ispravna rezervna kopija.'}e.target.value=''};
+$('date').value=today();
+(async()=>{try{db=await openDB();await refresh();renderDraft()}catch(e){$('work-message').textContent='Čuvanje nije dostupno u ovom pregledaču. Otvori aplikaciju u Safariju preko HTTPS adrese.'}})();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+})();
+</script>
+</body></html>
